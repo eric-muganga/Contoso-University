@@ -1,0 +1,107 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model PaginatedList<Contoso_University.Models.Entities.Student>;
+
+<h3>Student List</h3>
+
+<p>
+    <a asp-action="AddStudent">Add Student</a>
+</p>
+
+@if (Model is null)
+{
+    <p>No student was found with this Id</p>
+}
+
+<form asp-action="List" method="get">
+    <div class="form-actions no-color" >
+        <p>
+            Find by name: <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-outline-info" /> |
+            <a asp-action="List">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="List" asp-route-sortOrder="@ViewData["NameSortParm"]" 
+                        asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                    >Last Name
+                </a>
+            </th>
+            <th>First Name</th>
+            <th>
+                <a asp-action="List" asp-route-sortOrder="@ViewData["DateSortParm"]" 
+                    asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                    >Enrollment date
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => student.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => student.FirstMidName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => student.EnrollmentDate)
+                </td>
+
+                <td>
+                    <a class="btn btn-primary" 
+                        asp-controller="Students" 
+                        asp-action="Edit" 
+                        asp-route-id="@student.ID">
+                        Edit
+                    </a>
+                    <a class="btn btn-info" 
+                        asp-controller="Students" 
+                        asp-action="Details" 
+                        asp-route-id="@student.ID">
+                        Details
+                    </a>
+                    <a class="btn btn-danger" 
+                        asp-controller="Students" 
+                        asp-action="Delete" 
+                        asp-route-id="@student.ID">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="List"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+   Previous
+</a>
+
+<a asp-action="List"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
