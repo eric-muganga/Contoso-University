@@ -14,7 +14,7 @@ namespace Contoso_University.Models.Entities
         public string LastName { get; set; }
 
         [Required]
-        [Column("FirstName")]
+        
         [Display(Name = "First Name")]
         [StringLength(50, MinimumLength = 2)]
         [RegularExpression(@"^[A-Z]+[a-zA-Z]*$")]

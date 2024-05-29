@@ -28,21 +28,6 @@ namespace Contoso_University.Migrations
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)");
 
-            migrationBuilder.AlterColumn<int>(
-                name: "CourseID",
-                table: "Courses",
-                type: "int",
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "int")
-                .OldAnnotation("SqlServer:Identity", "1, 1");
-
-            migrationBuilder.AddColumn<int>(
-                name: "DepartmentID",
-                table: "Courses",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
 
             migrationBuilder.CreateTable(
                 name: "Instructors",
@@ -104,13 +89,14 @@ namespace Contoso_University.Migrations
                         principalColumn: "ID");
                 });
 
-            migrationBuilder.Sql("INSERT INTO dbo.Departments (Name, Budget, StartDate) VALUES ('Temp', 0.00, GETDATE())");
+            //migrationBuilder.Sql("INSERT INTO dbo.Departments (Name, Budget, StartDate) VALUES ('Temp', 0.00, GETDATE())");
             // Default value for FK points to department created above, with
             // defaultValue changed to 1 in following AddColumn statement.
 
             migrationBuilder.AddColumn<int>(
                 name: "DepartmentID",
                 table: "Courses",
+                type: "int",
                 nullable: false,
                 defaultValue: 1);
 
